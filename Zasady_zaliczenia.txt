@@ -1,0 +1,33 @@
+Zasady zaliczenia.
+
+Program zaliczeniowy. Oddajemy do 8 zjazdu. Wrzucając go w poniżej opisanej formie do folderu zaliczenie, strona przedmiotu, pliki.
+Co ma zawierać:
+1. .NET Core MVC czyli architektura trój warstwowa 1 pkt.
+2. Przedstawiać spójną koncepcję. Np aplikacja typu TODO lista albo kolekcja znaczków. 1 pkt.
+3. Musi wykorzystywać Entity Framework do połączenia z bazą danych. 2 pkt.
+4. Musi obsługiwać wszystkie operacje CRUDOWE (dodaj, usuń, edytuj, wyświetl pojedyńczy element, wyświetl kolekcję)4 pkt.
+5. Dodanie repozytorium (np. FilmManager) czyli warstwy pośredniej między bazą danych a kontrolerem. 2 pkt.
+6. Widoki do wszystkich operacji crudowych. 2 pkt.
+7. Musi być przygotowany przyjazny, intuicyjny, schludny interfejs użytkownika. Proszę wykorzystać framework css Bootstrap. 2 pkt.
+8. Powinien używać dependency injection. 2 pkt.
+9. Proszę opisać wzorce projektowe i napisać jakie mają zastosowanie w .NET Core: 2 pkt.
+Kompozyt
+Obserwator
+Strategia
+Metoda Wytwórcza
+Dekorator
+10. 80% obecności 2 pkt.
+11. Zadania domowe podstawy programowania w .NET 3 pkt. 
+
+Do zdobycia jest 23 pkt.
+
+5 19-20 pkt. lub więcej.
+4,5 16-18 pkt.
+4 14-16 pkt.
+3,5 12-14 pkt.
+3 10-12 pkt. 
+
+Co najmniej 9 pkt. musi być zdobyte za zadania 1-8. I żeby punkty się liczyły musi działać poprzedni punkt. Nie można zrobić widoków do nie działającj logiki.
+
+Przygotowujemy plik zip podpisany w schemacie Imie_Nazwisko_grupa. W srodku plik txt. W pliku oswiadczenie o liczbie obecnosci (bede weryfikowal wyrywkowo), opis wzorcow projektowych.Dodatkowo linki do zadania i pracy dowowej w github lub dodane pliki zadania koncowego i pracy domowej w osobnych folderach.
+ 
