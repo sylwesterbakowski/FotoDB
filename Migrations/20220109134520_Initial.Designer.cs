@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FotoDB.Migrations
 {
-    [DbContext(typeof(FotoContext))]
+    [DbContext(typeof(FotoDBContext))]
     [Migration("20220109134520_Initial")]
     partial class Initial
     {

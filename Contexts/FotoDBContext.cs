@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FotoDB.Contexts
 {
-    public class FotoContext :DbContext
+    public class FotoDBContext :DbContext
     {
        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -19,15 +19,6 @@ namespace FotoDB.Contexts
         public DbSet<FotoModel> Fotos { get; set; }
         public DbSet<AutorModel> Autors { get; set; }
         public DbSet<KrajModel> Krajs { get; set; }
-
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    //modelBuilder.Entity<AutorModel>().Property<int>("KrajForeignKey");
-
-        //    modelBuilder.Entity<AutorModel>()
-        //        .HasOne(k=>k.)
-        //        .
-        //}
         
     }
 }

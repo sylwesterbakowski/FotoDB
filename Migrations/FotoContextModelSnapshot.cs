@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FotoDB.Migrations
 {
-    [DbContext(typeof(FotoContext))]
+    [DbContext(typeof(FotoDBContext))]
     partial class FotoContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
