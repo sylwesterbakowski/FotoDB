@@ -24,12 +24,31 @@ namespace FotoDB.Controllers
             //manager.RemoveKraj(5);
 
             ////ręczne update danych w modelu i w bazie
-            var kraj = new KrajModel();
-            kraj.KrajModelID = 2;
-            kraj.Nazwa = "Niemcy";
-            manager.UpdateKraj(kraj);
+            //var kraj = new KrajModel();
+            //kraj.KrajModelID = 2;
+            //kraj.Nazwa = "Niemcy";
+            //manager.UpdateKraj(kraj);
 
+            ////ręczna zmiana danych w modelu i w bazie
+            //manager.ChangeNazwa(3, "Szkocja");
+
+            var krajs = manager.GetKrajs();
+
+            return View(krajs);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(KrajModel kraj)
+        {
+            var manager = new KrajManager();
+            manager.AddKraj(kraj);
+            return RedirectToAction("Index");
         }
     }
 }

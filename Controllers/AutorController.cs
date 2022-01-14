@@ -26,16 +26,35 @@ namespace FotoDB.Controllers
             //manager.RemoveAutor(4);
 
             ////ręczne update danych w modelu i w bazie
-            var autor = new AutorModel();
-            autor.AutorModelID = 3;
-            autor.Nazwisko = "Nowak";
-            autor.Imie = "Karolina";
-            autor.KrajModelID = 2;
-            manager.UpdateAutor(autor);
+            //var autor = new AutorModel();
+            //autor.AutorModelID = 3;
+            //autor.Nazwisko = "Nowak";
+            //autor.Imie = "Karolina";
+            //autor.KrajModelID = 2;
+            //manager.UpdateAutor(autor);
 
+            ////ręczna zmiana danych w modelu i w bazie
+            //manager.ChangeNazwisko(5, "Nowaczek");
+            //manager.ChangeImie(6, "Grzegorz");
+            //manager.ChangeKraj(3, 3);
 
+            var autors = manager.GetAutors();
 
+            return View(autors);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(AutorModel autor)
+        {
+            var manager = new AutorManager();
+            manager.AddAutor(autor);
+            return RedirectToAction("Index");
         }
     }
 }

@@ -83,7 +83,7 @@ namespace FotoDB.Logic
                 }
                 else
                 {
-                    autor.Nazwisko = newImie;
+                    autor.Imie = newImie;
                 }
                 this.UpdateAutor(autor);
                 //lub
