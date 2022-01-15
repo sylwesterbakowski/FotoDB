@@ -51,7 +51,26 @@
             </td>
             <td> 
                 @{ 
-                    string imageData = @"data:image / jpeg; base64," + Convert.ToBase64String(item.FotoData);
+                    string imageData;
+                    string extention = item.FotoRozszerzenie;
+                    switch (extention)
+                    {
+                        case ".png":
+                            {
+                                imageData = @"data:image / png; base64," + Convert.ToBase64String(item.FotoData);
+                                break;
+                            }
+                        case ".jpg":
+                            {
+                                imageData = @"data:image / jpg; base64," + Convert.ToBase64String(item.FotoData);
+                                break;
+                            }
+                        default:
+                            {
+                                imageData = @"data:image / jpeg; base64," + Convert.ToBase64String(item.FotoData);
+                                break;
+                            }
+                    }
                 }
                 <img src=@imageData asp-append-version="true" width="250px" />
             </td>

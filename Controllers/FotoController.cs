@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -85,11 +86,90 @@ namespace FotoDB.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(FotoModel foto)
+        public async Task<IActionResult> CreateAsync(FotoModel foto)
+        {
+            //string fileName = "wwsi_lock";
+            //string extention = ".png";
+            //var path = foto.ImageFile.FileName;
+            //foto.FotoData = System.IO.File.ReadAllBytes(foto.ImageFile.FileName);
+
+            //foto.FotoData = System.IO.File.ReadAllBytes(foto.ImageFile.FileName);
+
+            using (var memoryStream = new MemoryStream())
+            {
+                var manager = new FotoManager();
+                
+                await foto.ImageFile.CopyToAsync(memoryStream);
+                // Upload the file if less than 2 MB
+                if (memoryStream.Length < 2097152)
+                {
+                    foto.FotoData = memoryStream.ToArray();
+                    await manager.AddFotoAsync(foto);
+                }
+                else
+                {
+
+                    ViewBag.ErrorTitle = "File";
+                    ViewBag.ErrorMessage = "The file is too large. We can accept an image up to 2MB.";
+                    return View("Error");
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
         {
             var manager = new FotoManager();
-            manager.AddFoto(foto);
+            var foto = manager.GetFoto(id);
+            return View(foto);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteConfirm(int id)
+        {
+            var manager = new FotoManager();
+            try
+            {
+                manager.RemoveFoto(id);
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                ViewBag.ErrorTitle = "Delete";
+                ViewBag.ErrorMessage = "You cannot delete this record because it does not exist in the database.";
+                return View("Error");
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var manager = new FotoManager();
+            var foto = manager.GetFoto(id);
+            return View(foto);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(FotoModel foto)
+        {
+            var manager = new FotoManager();
+            manager.UpdateFoto(foto);
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            var manager = new FotoManager();
+            var foto = manager.GetFoto(id);
+            return View(foto);
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

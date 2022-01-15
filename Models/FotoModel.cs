@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,6 +17,7 @@ namespace FotoDB.Models
 
         public string FotoTytul { get; set; }
 
+        [DisplayName("Image")]
         public byte[] FotoData { get; set; }
 
         [Required]
@@ -23,6 +27,10 @@ namespace FotoDB.Models
 
         public int AutorModelID { get; set; }
         public AutorModel AutorModel { get; set; }
+
+        [NotMapped]
+        [DisplayName("Upload File")]
+        public IFormFile ImageFile { get; set; }
 
     }
 }

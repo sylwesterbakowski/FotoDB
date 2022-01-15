@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="DataWykonania" class="control-label"></label>
@@ -23,9 +23,12 @@
                 <span asp-validation-for="FotoTytul" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FotoData" class="control-label"></label>
-                <input asp-for="FotoData" class="form-control" />
-                <span asp-validation-for="FotoData" class="text-danger"></span>
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input asp-for="ImageFile"  accept="image/*"/>
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+                @{ 
+                    //Model.FotoData = System.IO.File.ReadAllBytes(Model.ImageFile.FileName);
+                }
             </div>
             <div class="form-group">
                 <label asp-for="FotoRozszerzenie" class="control-label"></label>
@@ -39,10 +42,28 @@
             </div>
             <div class="form-group">
                 <label asp-for="AutorModelID" class="control-label"></label>
-                <select asp-for="AutorModelID" class ="form-control" asp-items="ViewBag.AutorModelID"></select>
+                @{
+                    FotoDB.Contexts.FotoDBContext manager = new FotoDB.Contexts.FotoDBContext();
+                    List<FotoDB.Models.AutorModel> listAutors = manager.Autors.ToList();
+                    listAutors.Sort((x, y) => string.Compare(x.Nazwisko, y.Imie));
+
+                    <select asp-for="AutorModelID" class="form-control">
+                        @{
+                            <option value="" disabled hidden selected>Select Autor</option>
+                            foreach (FotoDB.Models.AutorModel a in listAutors)
+                            {
+                                <option value="@a.AutorModelID">
+                                    <column>@a.Nazwisko</column>
+                                    <column>@a.Imie</column>
+                                </option>
+                            }
+                        }
+                    </select>
+                }
+                <!--<select asp-for="AutorModelID" class ="form-control" asp-items="ViewBag.AutorModelID"></select>-->
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="CreateAsync" class="btn btn-primary" />
             </div>
         </form>
     </div>

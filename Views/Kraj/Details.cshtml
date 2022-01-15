@@ -1,0 +1,31 @@
+﻿@model FotoDB.Models.KrajModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>KrajModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.KrajModelID)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.KrajModelID)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Nazwa)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nazwa)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.KrajModelID">Edit</a> |
+    <a asp-action="Delete" asp-route-id="@Model.KrajModelID">Delete</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

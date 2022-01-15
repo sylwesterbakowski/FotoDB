@@ -28,6 +28,25 @@ namespace FotoDB.Logic
             }
             return this;
         }
+        public async Task<FotoManager> AddFotoAsync(FotoModel fotoModel)
+        {
+            using (var context = new FotoDBContext())
+            {
+                context.Add(fotoModel);
+                try
+                {
+                    await context.SaveChangesAsync();
+                }
+                catch (Exception)
+                {
+
+                    fotoModel.FotoModelID = 0;
+                    context.Add(fotoModel);
+                    await context.SaveChangesAsync();
+                }
+            }
+            return this;
+        }
 
         public FotoManager RemoveFoto(int id)
         {

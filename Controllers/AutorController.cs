@@ -3,6 +3,7 @@ using FotoDB.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -55,6 +56,62 @@ namespace FotoDB.Controllers
             var manager = new AutorManager();
             manager.AddAutor(autor);
             return RedirectToAction("Index");
+        }
+
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            var manager = new AutorManager();
+            var autor = manager.GetAutor(id);
+            return View(autor);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteConfirm(int id)
+        {
+            var manager = new AutorManager();
+            try
+            {
+                manager.RemoveAutor(id);
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                ViewBag.ErrorTitle = "Delete";
+                ViewBag.ErrorMessage = "You cannot delete this record because it does not exist in the database.";
+                return View("Error");
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var manager = new AutorManager();
+            var autor = manager.GetAutor(id);
+            return View(autor);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(AutorModel autor)
+        {
+            var manager = new AutorManager();
+            manager.UpdateAutor(autor);
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            var manager = new AutorManager();
+            var autor = manager.GetAutor(id);
+            return View(autor);
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
