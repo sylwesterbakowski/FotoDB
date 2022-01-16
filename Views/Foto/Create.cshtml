@@ -1,12 +1,12 @@
 ﻿@model FotoDB.Models.FotoModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Dodaj zdjęcie";
 }
 
-<h1>Create</h1>
+<h1>Dodaj zdjęcie</h1>
 
-<h4>FotoModel</h4>
+<h4>Utwórz nowe zdjęcie w bazie danych</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -24,7 +24,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="ImageFile" class="control-label"></label>
-                <input asp-for="ImageFile"  accept="image/*"/>
+                <input asp-for="ImageFile"  type="file" class="form-control-file" accept="image/*"/>
                 <span asp-validation-for="ImageFile" class="text-danger"></span>
                 @{ 
                     //Model.FotoData = System.IO.File.ReadAllBytes(Model.ImageFile.FileName);
@@ -61,16 +61,17 @@
                     </select>
                 }
                 <!--<select asp-for="AutorModelID" class ="form-control" asp-items="ViewBag.AutorModelID"></select>-->
+                <span asp-validation-for="AutorModelID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="CreateAsync" class="btn btn-primary" />
+                <input type="submit" value="Dodaj" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-info">Powrót do listy zdjęć</a>
 </div>
 
 @section Scripts {

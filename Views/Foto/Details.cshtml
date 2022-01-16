@@ -1,13 +1,12 @@
 ﻿@model FotoDB.Models.FotoModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Szczegóły zdjęcia: " + ViewData.Model.FotoTytul + ViewData.Model.FotoRozszerzenie;
 }
 
-<h1>Details</h1>
+<h1>Szczegóły zdjęcia: @Html.DisplayFor(model => model.FotoTytul)@Html.DisplayFor(model => model.FotoRozszerzenie)</h1>
 
 <div>
-    <h4>FotoModel</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -77,7 +76,7 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.FotoModelID">Edit</a> |
-    <a asp-action="Delete" asp-route-id="@Model.FotoModelID">Delete</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.FotoModelID" class="btn btn-primary">Edytuj</a>
+    <a asp-action="Delete" asp-route-id="@Model.FotoModelID" class="btn btn-danger">Usuń</a>
+    <a asp-action="Index" class="btn btn-info">Powrót do listy zdjęć</a>
 </div>

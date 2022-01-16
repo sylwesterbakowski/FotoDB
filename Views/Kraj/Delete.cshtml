@@ -1,12 +1,12 @@
 ﻿@model FotoDB.Models.KrajModel
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Usuń kraj";
 }
 
-<h1>Delete</h1>
+<h1>Usuń kraj</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Czy na pewno chcesz usunąć ten kraj z bazy danych?</h3>
 <div>
     <h4>KrajModel</h4>
     <hr />
@@ -27,7 +27,8 @@
     
     <form asp-action="DeleteConfirm" asp-route-id="@Model.KrajModelID">
         <input type="hidden" asp-for="KrajModelID" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Usuń" class="btn btn-danger" />
+        <a asp-action="Details" asp-route-id="@Model.KrajModelID" class="btn btn-info">Powrót do szczegółów</a>
+        <a asp-action="Index" class="btn btn-info">Powrót do listy krajów</a>
     </form>
 </div>

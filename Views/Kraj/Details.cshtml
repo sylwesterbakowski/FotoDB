@@ -1,13 +1,12 @@
 ﻿@model FotoDB.Models.KrajModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Szczegóły kraju: " + ViewData.Model.Nazwa;
 }
 
-<h1>Details</h1>
+<h1>Szczegóły kraju: @Html.DisplayFor(model => model.Nazwa)</h1>
 
 <div>
-    <h4>KrajModel</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -25,7 +24,7 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.KrajModelID">Edit</a> |
-    <a asp-action="Delete" asp-route-id="@Model.KrajModelID">Delete</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.KrajModelID" class="btn btn-primary">Edytuj</a>
+    <a asp-action="Delete" asp-route-id="@Model.KrajModelID" class="btn btn-danger">Usuń</a>
+    <a asp-action="Index" class="btn btn-info">Powrót do listy krajów</a>
 </div>

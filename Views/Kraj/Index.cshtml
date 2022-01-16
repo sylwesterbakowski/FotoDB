@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<FotoDB.Models.KrajModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Kraje";
 }
 
-<h1>Index</h1>
+<h1>Kraje</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Dodaj nowy</a>
 </p>
 <table class="table">
     <thead>
@@ -31,9 +31,7 @@
                 @Html.DisplayFor(modelItem => item.Nazwa)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.KrajModelID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.KrajModelID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.KrajModelID">Delete</a>
+                <a asp-action="Details" asp-route-id="@item.KrajModelID" class="btn btn-info">Pokaż szczegóły</a>
             </td>
         </tr>
 }

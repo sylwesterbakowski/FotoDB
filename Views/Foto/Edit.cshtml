@@ -1,16 +1,14 @@
 ﻿@model FotoDB.Models.FotoModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edytujesz zdjęcie: " + ViewData.Model.FotoTytul + ViewData.Model.FotoRozszerzenie;
 }
 
-<h1>Edit</h1>
-
-<h4>FotoModel</h4>
+<h1>Edytujesz zdjęcie: @Html.DisplayFor(model => model.FotoTytul)@Html.DisplayFor(model => model.FotoRozszerzenie)</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="FotoModelID" />
             <div class="form-group">
@@ -25,8 +23,35 @@
             </div>
             <div class="form-group">
                 <label asp-for="FotoData" class="control-label"></label>
-                <input asp-for="FotoData" class="form-control" />
-                <span asp-validation-for="FotoData" class="text-danger"></span>
+                @{
+                    string imageData;
+                    string extention = Model.FotoRozszerzenie;
+                    switch (extention)
+                    {
+                        case ".png":
+                            {
+                                imageData = @"data:image / png; base64," + Convert.ToBase64String(Model.FotoData);
+                                break;
+                            }
+                        case ".jpg":
+                            {
+                                imageData = @"data:image / jpg; base64," + Convert.ToBase64String(Model.FotoData);
+                                break;
+                            }
+                        default:
+                            {
+                                imageData = @"data:image / jpeg; base64," + Convert.ToBase64String(Model.FotoData);
+                                break;
+                            }
+                    }
+                }
+                <img src=@imageData asp-append-version="true" width="250px" />
+                <!--<input asp-for="FotoData" class="form-control" />
+                <span asp-validation-for="FotoData" class="text-danger"></span>-->
+
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input asp-for="ImageFile" accept="image/*" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FotoRozszerzenie" class="control-label"></label>
@@ -40,18 +65,37 @@
             </div>
             <div class="form-group">
                 <label asp-for="AutorModelID" class="control-label"></label>
-                <select asp-for="AutorModelID" class="form-control" asp-items="ViewBag.AutorModelID"></select>
+                @{
+                    FotoDB.Contexts.FotoDBContext manager = new FotoDB.Contexts.FotoDBContext();
+                    List<FotoDB.Models.AutorModel> listAutors = manager.Autors.ToList();
+                    listAutors.Sort((x, y) => string.Compare(x.Nazwisko, y.Imie));
+
+                    <select asp-for="AutorModelID" class="form-control">
+                        @{
+                            <option value="" disabled hidden selected>Select Autor</option>
+                            foreach (FotoDB.Models.AutorModel a in listAutors)
+                            {
+                                <option value="@a.AutorModelID">
+                                    <column>@a.Nazwisko</column>
+                                    <column>@a.Imie</column>
+                                </option>
+                            }
+                        }
+                    </select>
+                }
+                <!--<select asp-for="AutorModelID" class="form-control" asp-items="ViewBag.AutorModelID"></select>-->
                 <span asp-validation-for="AutorModelID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Zapisz" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Details" asp-route-id="@Model.FotoModelID" class="btn btn-info">Powrót do szczegółów</a>
+    <a asp-action="Index" class="btn btn-info">Powrót do listy zdjęć</a>
 </div>
 
 @section Scripts {

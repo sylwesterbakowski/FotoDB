@@ -1,12 +1,12 @@
 ﻿@model FotoDB.Models.KrajModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Dodaj kraj";
 }
 
-<h1>Create</h1>
+<h1>Dodaj kraj</h1>
 
-<h4>KrajModel</h4>
+<h4>Utwórz nowy kraj w bazie danych</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -18,14 +18,14 @@
                 <span asp-validation-for="Nazwa" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Dodaj" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-info">Powrót do listy krajów</a>
 </div>
 
 @section Scripts {

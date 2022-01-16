@@ -1,12 +1,12 @@
 ﻿@model FotoDB.Models.FotoModel
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Usuń zdjęcie";
 }
 
-<h1>Delete</h1>
+<h1>Usuń zdjęcie</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Czy na pewno chcesz usunąć to zdjęcie z bazy danych?</h3>
 <div>
     <h4>FotoModel</h4>
     <hr />
@@ -79,7 +79,8 @@
     
     <form asp-action="DeleteConfirm" asp-route-id="@Model.FotoModelID">
         <input type="hidden" asp-for="FotoModelID" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Usuń" class="btn btn-danger" />
+        <a asp-action="Details" asp-route-id="@Model.FotoModelID" class="btn btn-info">Powrót do szczegółów</a>
+        <a asp-action="Index" class="btn btn-info">Powrót do listy zdjęć</a>
     </form>
 </div>

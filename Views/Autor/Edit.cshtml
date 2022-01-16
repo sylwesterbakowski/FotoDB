@@ -1,12 +1,10 @@
 ﻿@model FotoDB.Models.AutorModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edytujesz autora: " + ViewData.Model.Nazwisko + ViewData.Model.Imie;
 }
 
-<h1>Edit</h1>
-
-<h4>AutorModel</h4>
+<h1>Edytujesz autora: @Html.DisplayFor(model => model.Nazwisko)@Html.DisplayFor(model => model.Imie)</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -29,14 +27,15 @@
                 <span asp-validation-for="KrajModelID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Zapisz" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Details" asp-route-id="@Model.AutorModelID" class="btn btn-info">Powrót do szczegółów</a>
+    <a asp-action="Index" class="btn btn-info">Powrót do listy autorów</a>
 </div>
 
 @section Scripts {

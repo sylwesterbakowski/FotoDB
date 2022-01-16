@@ -70,6 +70,26 @@ namespace FotoDB.Logic
             return this;
         }
 
+        public async Task<FotoManager> UpdateFotoAsync(FotoModel fotoModel)
+        {
+            using (var context = new FotoDBContext())
+            {
+                context.Update(fotoModel);
+                try
+                {
+                    await context.SaveChangesAsync();
+                }
+                catch (Exception)
+                {
+
+                    fotoModel.FotoModelID = 0;
+                    context.Update(fotoModel);
+                    await context.SaveChangesAsync();
+                }
+            }
+            return this;
+        }
+
         public FotoManager ChangeOpis(int id, string newOpis)
         {
             using (var context = new FotoDBContext())

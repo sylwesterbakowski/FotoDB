@@ -1,6 +1,7 @@
 ﻿using FotoDB.Logic;
 using FotoDB.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -98,8 +99,8 @@ namespace FotoDB.Controllers
             using (var memoryStream = new MemoryStream())
             {
                 var manager = new FotoManager();
-                
-                await foto.ImageFile.CopyToAsync(memoryStream);
+                if (foto.ImageFile != null)
+                    await foto.ImageFile.CopyToAsync(memoryStream);
                 // Upload the file if less than 2 MB
                 if (memoryStream.Length < 2097152)
                 {
@@ -147,14 +148,73 @@ namespace FotoDB.Controllers
         {
             var manager = new FotoManager();
             var foto = manager.GetFoto(id);
+            //try
+            //{
+            //    using (MemoryStream stream = new MemoryStream(foto.FotoData))
+            //    {
+            //        foto.ImageFile = new FormFile(stream, 0, stream.Length, foto.FotoTytul, foto.FotoTytul + foto.FotoRozszerzenie);
+            //        return View(foto);
+            //    }
+            //    //using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+            //    //{
+            //    //    fs.Write(byteArray, 0, byteArray.Length);
+            //    //    return View(foto);
+            //    //}
+
+            //}
+            //catch (Exception)
+            //{
+
+            //    ViewBag.ErrorTitle = "File";
+            //    ViewBag.ErrorMessage = "There is now file in database";
+            //    return View("Error");
+            //}
             return View(foto);
         }
 
+        //[HttpPost]
+        //public IActionResult Edit(FotoModel foto)
+        //{
+        //    var manager = new FotoManager();
+        //    manager.UpdateFoto(foto);
+        //    return RedirectToAction("Index");
+        //}
         [HttpPost]
-        public IActionResult Edit(FotoModel foto)
+        public async Task<IActionResult> EditAsync(FotoModel foto)
         {
-            var manager = new FotoManager();
-            manager.UpdateFoto(foto);
+            //string fileName = "wwsi_lock";
+            //string extention = ".png";
+            //var path = foto.ImageFile.FileName;
+            //foto.FotoData = System.IO.File.ReadAllBytes(foto.ImageFile.FileName);
+
+            //foto.FotoData = System.IO.File.ReadAllBytes(foto.ImageFile.FileName);
+            
+            using (var memoryStream = new MemoryStream())
+            {
+                var manager = new FotoManager();
+                if (foto.ImageFile != null)
+                {
+                    await foto.ImageFile.CopyToAsync(memoryStream);
+                    // Upload the file if less than 2 MB
+                    if (memoryStream.Length < 2097152)
+                    {
+                        foto.FotoData = memoryStream.ToArray();
+                        await manager.UpdateFotoAsync(foto);
+                    }
+                    else
+                    {
+
+                        ViewBag.ErrorTitle = "File";
+                        ViewBag.ErrorMessage = "The file is too large. We can accept an image up to 2MB.";
+                        return View("Error");
+                    }
+                }
+                else
+                {
+                   // await manager.UpdateFotoAsync(foto);
+                }
+                
+            }
             return RedirectToAction("Index");
         }
 
