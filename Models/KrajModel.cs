@@ -12,6 +12,8 @@ namespace FotoDB.Models
 
         [Required]
         public string Nazwa { get; set; }
+        
+        public ICollection<AutorModel> Autors { get; set; }
 
        // public List<AutorModel> ListaAutorow { get; set; }
     }

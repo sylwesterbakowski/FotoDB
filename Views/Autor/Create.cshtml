@@ -25,21 +25,23 @@
             <div class="form-group">
 
                 <label asp-for="KrajModelID" class="control-label"></label>
+                @*@{
+            FotoDB.Contexts.FotoDBContext manager = new FotoDB.Contexts.FotoDBContext();
+            List<FotoDB.Models.KrajModel> listKrajs = manager.Krajs.ToList();
+            listKrajs.Sort((x,y) => x.Nazwa.CompareTo(y.Nazwa));
+            //listKrajs.OrderBy(x => x.Nazwa);
+            <select asp-for="KrajModelID" class="form-control">
                 @{
-                    FotoDB.Contexts.FotoDBContext manager = new FotoDB.Contexts.FotoDBContext();
-                    List<FotoDB.Models.KrajModel> listKrajs = manager.Krajs.ToList();
-                    listKrajs.Sort((x,y) => x.Nazwa.CompareTo(y.Nazwa));
-                    //listKrajs.OrderBy(x => x.Nazwa);
-                    <select asp-for="KrajModelID" class="form-control">
-                        @{
-                            <option value="" disabled hidden selected>Select Kraj</option>
-                            foreach (FotoDB.Models.KrajModel k in listKrajs)
-                            {
-                                <option value="@k.KrajModelID">@k.Nazwa</option>
-                            }
-                        }
-                    </select>
+                    <option value="" disabled hidden selected>Select Kraj</option>
+                    foreach (FotoDB.Models.KrajModel k in listKrajs)
+                    {
+                        <option value="@k.KrajModelID">@k.Nazwa</option>
+                    }
                 }
+            </select>
+        }*@
+                <select asp-for="KrajModelID" class="form-control" asp-items="ViewBag.ListKrajs"></select>
+                <span asp-validation-for="KrajModelID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Dodaj" class="btn btn-primary" />

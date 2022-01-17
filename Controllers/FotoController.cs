@@ -1,8 +1,10 @@
-﻿using FotoDB.Logic;
+﻿using FotoDB.ILogic;
+using FotoDB.Logic;
 using FotoDB.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,13 +18,21 @@ namespace FotoDB.Controllers
     {
         private readonly IWebHostEnvironment _hostEnvironment;
 
-        public FotoController(IWebHostEnvironment hostEnvironment)
+        //public FotoController(IWebHostEnvironment hostEnvironment)
+        //{
+        //    this._hostEnvironment = hostEnvironment;
+        //}
+
+        private readonly IFotoManager _fotoManager;
+
+        public FotoController(IFotoManager fotoManager, IWebHostEnvironment hostEnvironment)
         {
+            _fotoManager = fotoManager;
             this._hostEnvironment = hostEnvironment;
         }
         public IActionResult Index()
         {
-            var manager = new FotoManager();
+            //var manager = new FotoManager();
 
             ////ręczne dodawanie danych do modelu i do bazy
             //var foto = new FotoModel();
@@ -75,7 +85,11 @@ namespace FotoDB.Controllers
             //manager.ChangeOpis(7, "NetSec WWSI");
             //manager.ChangeAutor(7, 3);
 
-            var fotos = manager.GetFotos();
+            //var fotos = manager.GetFotos();
+            var fotos = _fotoManager.GetFotos();
+
+            IEnumerable<SelectListItem> listAutors = _fotoManager.GetListAutors();
+            ViewBag.ListAutors = listAutors;
 
             return View(fotos);
         }
@@ -83,6 +97,8 @@ namespace FotoDB.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            IEnumerable<SelectListItem> listAutors = _fotoManager.GetListAutors();
+            ViewBag.ListAutors = listAutors;
             return View();
         }
 
@@ -98,14 +114,15 @@ namespace FotoDB.Controllers
 
             using (var memoryStream = new MemoryStream())
             {
-                var manager = new FotoManager();
+                //var manager = new FotoManager();
                 if (foto.ImageFile != null)
                     await foto.ImageFile.CopyToAsync(memoryStream);
                 // Upload the file if less than 2 MB
                 if (memoryStream.Length < 2097152)
                 {
                     foto.FotoData = memoryStream.ToArray();
-                    await manager.AddFotoAsync(foto);
+                    //await manager.AddFotoAsync(foto);
+                    await _fotoManager.AddFotoAsync(foto);
                 }
                 else
                 {
@@ -121,18 +138,28 @@ namespace FotoDB.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var manager = new FotoManager();
-            var foto = manager.GetFoto(id);
+            //var manager = new FotoManager();
+            //var foto = manager.GetFoto(id);
+            var foto = _fotoManager.GetFoto(id);
+            IEnumerable<SelectListItem> listAutors = _fotoManager.GetListAutors();
+            foreach (var item in listAutors)
+            {
+                if (item.Value == foto.AutorModelID.ToString())
+                {
+                    ViewBag.Autor = item.Text;
+                }
+            }
             return View(foto);
         }
 
         [HttpPost]
         public IActionResult DeleteConfirm(int id)
         {
-            var manager = new FotoManager();
+            //var manager = new FotoManager();
             try
             {
-                manager.RemoveFoto(id);
+                //manager.RemoveFoto(id);
+                _fotoManager.RemoveFoto(id);
                 return RedirectToAction("Index");
             }
             catch (Exception)
@@ -146,8 +173,9 @@ namespace FotoDB.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var manager = new FotoManager();
-            var foto = manager.GetFoto(id);
+            //var manager = new FotoManager();
+            //var foto = manager.GetFoto(id);
+            var foto = _fotoManager.GetFoto(id);
             //try
             //{
             //    using (MemoryStream stream = new MemoryStream(foto.FotoData))
@@ -169,14 +197,17 @@ namespace FotoDB.Controllers
             //    ViewBag.ErrorMessage = "There is now file in database";
             //    return View("Error");
             //}
+            IEnumerable<SelectListItem> listAutors = _fotoManager.GetListAutors();
+            ViewBag.ListAutors = listAutors;
             return View(foto);
         }
 
         //[HttpPost]
         //public IActionResult Edit(FotoModel foto)
         //{
-        //    var manager = new FotoManager();
-        //    manager.UpdateFoto(foto);
+        //    //var manager = new FotoManager();
+        //    //manager.UpdateFoto(foto);
+        //    _fotoManager.UpdateFoto(foto);
         //    return RedirectToAction("Index");
         //}
         [HttpPost]
@@ -191,7 +222,7 @@ namespace FotoDB.Controllers
             
             using (var memoryStream = new MemoryStream())
             {
-                var manager = new FotoManager();
+                //var manager = new FotoManager();
                 if (foto.ImageFile != null)
                 {
                     await foto.ImageFile.CopyToAsync(memoryStream);
@@ -199,7 +230,8 @@ namespace FotoDB.Controllers
                     if (memoryStream.Length < 2097152)
                     {
                         foto.FotoData = memoryStream.ToArray();
-                        await manager.UpdateFotoAsync(foto);
+                        //await manager.UpdateFotoAsync(foto);
+                        await _fotoManager.UpdateFotoAsync(foto);
                     }
                     else
                     {
@@ -221,8 +253,17 @@ namespace FotoDB.Controllers
         [HttpGet]
         public IActionResult Details(int id)
         {
-            var manager = new FotoManager();
-            var foto = manager.GetFoto(id);
+            //var manager = new FotoManager();
+            //var foto = manager.GetFoto(id);
+            var foto = _fotoManager.GetFoto(id);
+            IEnumerable<SelectListItem> listAutors = _fotoManager.GetListAutors();
+            foreach (var item in listAutors)
+            {
+                if (item.Value == foto.AutorModelID.ToString())
+                {
+                    ViewBag.Autor = item.Text;
+                }
+            }
             return View(foto);
         }
 

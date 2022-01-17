@@ -65,7 +65,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="AutorModelID" class="control-label"></label>
-                @{
+                @*@{
                     FotoDB.Contexts.FotoDBContext manager = new FotoDB.Contexts.FotoDBContext();
                     List<FotoDB.Models.AutorModel> listAutors = manager.Autors.ToList();
                     listAutors.Sort((x, y) => string.Compare(x.Nazwisko, y.Imie));
@@ -82,8 +82,8 @@
                             }
                         }
                     </select>
-                }
-                <!--<select asp-for="AutorModelID" class="form-control" asp-items="ViewBag.AutorModelID"></select>-->
+                }*@
+                <select asp-for="AutorModelID" class="form-control" asp-items="ViewBag.ListAutors"></select>
                 <span asp-validation-for="AutorModelID" class="text-danger"></span>
             </div>
             <div class="form-group">

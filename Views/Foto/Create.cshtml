@@ -42,26 +42,27 @@
             </div>
             <div class="form-group">
                 <label asp-for="AutorModelID" class="control-label"></label>
-                @{
-                    FotoDB.Contexts.FotoDBContext manager = new FotoDB.Contexts.FotoDBContext();
-                    List<FotoDB.Models.AutorModel> listAutors = manager.Autors.ToList();
-                    listAutors.Sort((x, y) => string.Compare(x.Nazwisko, y.Imie));
 
-                    <select asp-for="AutorModelID" class="form-control">
-                        @{
-                            <option value="" disabled hidden selected>Select Autor</option>
-                            foreach (FotoDB.Models.AutorModel a in listAutors)
-                            {
-                                <option value="@a.AutorModelID">
-                                    <column>@a.Nazwisko</column>
-                                    <column>@a.Imie</column>
-                                </option>
-                            }
-                        }
-                    </select>
+                @*@{
+            FotoDB.Contexts.FotoDBContext manager = new FotoDB.Contexts.FotoDBContext();
+            List<FotoDB.Models.AutorModel> listAutors = manager.Autors.ToList();
+            listAutors.Sort((x, y) => string.Compare(x.Nazwisko, y.Imie));
+
+            <select asp-for="AutorModelID" class="form-control">
+                @{
+                    <option value="" disabled hidden selected>Select Autor</option>
+                    foreach (FotoDB.Models.AutorModel a in listAutors)
+                    {
+                        <option value="@a.AutorModelID">
+                            <column>@a.Nazwisko</column>
+                            <column>@a.Imie</column>
+                        </option>
+                    }
                 }
-                <!--<select asp-for="AutorModelID" class ="form-control" asp-items="ViewBag.AutorModelID"></select>-->
-                <span asp-validation-for="AutorModelID" class="text-danger"></span>
+            </select>
+        }*@
+            <select asp-for="AutorModelID" class ="form-control" asp-items="ViewBag.ListAutors"></select>
+            <span asp-validation-for="AutorModelID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Dodaj" class="btn btn-primary" />

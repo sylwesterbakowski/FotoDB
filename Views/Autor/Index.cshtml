@@ -24,28 +24,45 @@
             <th>
                 @Html.DisplayNameFor(model => model.KrajModelID)
             </th>
+            <th>
+                Kraj
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.AutorModelID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nazwisko)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Imie)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KrajModelID)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.AutorModelID" class="btn btn-info">Pokaż szczegóły</a>
-            </td>
-        </tr>
-}
-    </tbody>
+        @foreach (var item in Model)
+        {
+
+            @foreach (var itemViewBag in ViewBag.ListKrajs)
+            {
+                if (item.KrajModelID.ToString() == itemViewBag.Value)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AutorModelID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nazwisko)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Imie)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.KrajModelID)
+
+                        </td>
+                        <td>
+                            @itemViewBag.Text
+                        </td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.AutorModelID" class="btn btn-info">Pokaż szczegóły</a>
+                        </td>
+                    </tr>
+                }
+
+             }
+                    
+         }
+     </tbody>
 </table>

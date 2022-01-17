@@ -33,60 +33,72 @@
             <th>
                 @Html.DisplayNameFor(model => model.AutorModelID)
             </th>
+            <th>
+                Autor
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model)
-{
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FotoModelID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataWykonania)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FotoTytul)
-            </td>
-            <td> 
-                @{ 
-                    string imageData;
-                    string extention = item.FotoRozszerzenie;
-                    switch (extention)
-                    {
-                        case ".png":
+        @foreach (var item in Model)
+        {
+            @foreach (var itemViewBag in ViewBag.ListAutors)
+            {
+                if (item.AutorModelID.ToString() == itemViewBag.Value)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FotoModelID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataWykonania)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FotoTytul)
+                    </td>
+                    <td>
+                        @{
+                            string imageData;
+                            string extention = item.FotoRozszerzenie;
+                            switch (extention)
                             {
-                                imageData = @"data:image / png; base64," + Convert.ToBase64String(item.FotoData);
-                                break;
+                                case ".png":
+                                    {
+                                        imageData = @"data:image / png; base64," + Convert.ToBase64String(item.FotoData);
+                                        break;
+                                    }
+                                case ".jpg":
+                                    {
+                                        imageData = @"data:image / jpg; base64," + Convert.ToBase64String(item.FotoData);
+                                        break;
+                                    }
+                                default:
+                                    {
+                                        imageData = @"data:image / jpeg; base64," + Convert.ToBase64String(item.FotoData);
+                                        break;
+                                    }
                             }
-                        case ".jpg":
-                            {
-                                imageData = @"data:image / jpg; base64," + Convert.ToBase64String(item.FotoData);
-                                break;
-                            }
-                        default:
-                            {
-                                imageData = @"data:image / jpeg; base64," + Convert.ToBase64String(item.FotoData);
-                                break;
-                            }
-                    }
+                        }
+                        <img src=@imageData asp-append-version="true" width="250px" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FotoRozszerzenie)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Opis)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AutorModelID)
+                    </td>
+                    <td>
+                        @itemViewBag.Text
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.FotoModelID" class="btn btn-info">Pokaż szczegóły</a>
+                    </td>
+                </tr>
                 }
-                <img src=@imageData asp-append-version="true" width="250px" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FotoRozszerzenie)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Opis)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AutorModelID)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.FotoModelID" class="btn btn-info">Pokaż szczegóły</a>
-            </td>
-        </tr>
-}
+             }
+         }
     </tbody>
 </table>

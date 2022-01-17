@@ -1,4 +1,5 @@
-﻿using FotoDB.Logic;
+﻿using FotoDB.ILogic;
+using FotoDB.Logic;
 using FotoDB.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,9 +12,15 @@ namespace FotoDB.Controllers
 {
     public class KrajController : Controller
     {
+        private readonly IKrajManager _krajManager;
+
+        public KrajController(IKrajManager krajManager)
+        {
+            _krajManager = krajManager;
+        }
         public IActionResult Index()
         {
-            var manager = new KrajManager();
+            //var manager = new KrajManager();
 
             ////ręczne dodawanie danych do modelu i do bazy
             //var kraj = new KrajModel();
@@ -33,7 +40,8 @@ namespace FotoDB.Controllers
             ////ręczna zmiana danych w modelu i w bazie
             //manager.ChangeNazwa(3, "Szkocja");
 
-            var krajs = manager.GetKrajs();
+            //var krajs = manager.GetKrajs();
+            var krajs = _krajManager.GetKrajs();
 
             return View(krajs);
         }
@@ -47,26 +55,29 @@ namespace FotoDB.Controllers
         [HttpPost]
         public IActionResult Create(KrajModel kraj)
         {
-            var manager = new KrajManager();
-            manager.AddKraj(kraj);
+            //var manager = new KrajManager();
+            //manager.AddKraj(kraj);
+            _krajManager.AddKraj(kraj);
             return RedirectToAction("Index");
         }
 
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var manager = new KrajManager();
-            var kraj = manager.GetKraj(id);
+            //var manager = new KrajManager();
+            //var kraj = manager.GetKraj(id);
+            var kraj = _krajManager.GetKraj(id);
             return View(kraj);
         }
 
         [HttpPost]
         public IActionResult DeleteConfirm(int id)
         {
-            var manager = new KrajManager();
+            //var manager = new KrajManager();
             try
             {
-                manager.RemoveKraj(id);
+                //manager.RemoveKraj(id);
+                _krajManager.RemoveKraj(id);
                 return RedirectToAction("Index");
             }
             catch (Exception)
@@ -80,24 +91,27 @@ namespace FotoDB.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var manager = new KrajManager();
-            var kraj = manager.GetKraj(id);
+            //var manager = new KrajManager();
+            //var kraj = manager.GetKraj(id);
+            var kraj = _krajManager.GetKraj(id);
             return View(kraj);
         }
         
         [HttpPost]
         public IActionResult Edit(KrajModel kraj)
         {
-            var manager = new KrajManager();
-            manager.UpdateKraj(kraj);
+            //var manager = new KrajManager();
+            //manager.UpdateKraj(kraj);
+            _krajManager.UpdateKraj(kraj);
             return RedirectToAction("Index");
         }
 
         [HttpGet]
         public IActionResult Details(int id)
         {
-            var manager = new KrajManager();
-            var kraj = manager.GetKraj(id);
+            //var manager = new KrajManager();
+            //var kraj = manager.GetKraj(id);
+            var kraj = _krajManager.GetKraj(id);
             return View(kraj);
         }
 

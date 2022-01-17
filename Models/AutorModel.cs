@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -19,5 +20,6 @@ namespace FotoDB.Models
 
         public int KrajModelID { get; set; }
         public KrajModel KrajModel { get; set; }
+        public ICollection<FotoModel> Fotos { get; set; }
     }
 }
