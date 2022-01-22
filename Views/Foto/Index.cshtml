@@ -9,29 +9,59 @@
 <p>
     <a asp-action="Create" class="btn btn-primary">Dodaj nowe</a>
 </p>
-<table class="table">
+@*@using (Html.BeginForm())
+    {
+        <div>
+            Wyszukaj po tytule: @Html.TextBox("SearchString")
+            <input type="submit" value="Wyszukaj" />
+        </div>
+    }*@
+<hr />
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <div class="form-group">
+            <input type="text" class="form-control" name="SearchString" placeholder="Podaj tytuł" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Wyszukaj" class="btn btn-primary" />
+            <a asp-action="Index" class="btn btn-info">Powrót do listy zdjęć</a>
+        </div>
+    </div>
+</form>
+<hr />
+<table class="table table-dark table-hover table-bordered">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FotoModelID)
+
+                @*@Html.ActionLink(@Html.DisplayNameFor(model => model.FotoModelID), "Index", new { sortOrder = ViewBag.IDSortParm })*@
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["IDSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.FotoModelID)</a>
+
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DataWykonania)
+
+                @*@Html.ActionLink(@Html.DisplayNameFor(model => model.DataWykonania), "Index", new { sortOrder = ViewBag.DataSortParm })*@
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DataSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.DataWykonania)</a>
+
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FotoTytul)
+
+                @*@Html.ActionLink(@Html.DisplayNameFor(model => model.FotoTytul), "Index", new { sortOrder = ViewBag.TytulSortParm })*@
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["TytulSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.FotoTytul)</a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FotoData)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FotoRozszerzenie)
+
+                @*@Html.ActionLink(@Html.DisplayNameFor(model => model.FotoRozszerzenie), "Index", new { sortOrder = ViewBag.RozszerzenieSortParm })*@
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["RozszerzenieSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.FotoRozszerzenie)</a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Opis)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AutorModelID)
+
+                @*@Html.ActionLink(@Html.DisplayNameFor(model => model.AutorModelID), "Index", new { sortOrder = ViewBag.IDAutorSortParm })*@
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["IDAutorSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.AutorModelID)</a>
             </th>
             <th>
                 Autor
@@ -46,59 +76,59 @@
             {
                 if (item.AutorModelID.ToString() == itemViewBag.Value)
                 {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FotoModelID)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DataWykonania)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FotoTytul)
-                    </td>
-                    <td>
-                        @{
-                            string imageData;
-                            string extention = item.FotoRozszerzenie;
-                            switch (extention)
-                            {
-                                case ".png":
-                                    {
-                                        imageData = @"data:image / png; base64," + Convert.ToBase64String(item.FotoData);
-                                        break;
-                                    }
-                                case ".jpg":
-                                    {
-                                        imageData = @"data:image / jpg; base64," + Convert.ToBase64String(item.FotoData);
-                                        break;
-                                    }
-                                default:
-                                    {
-                                        imageData = @"data:image / jpeg; base64," + Convert.ToBase64String(item.FotoData);
-                                        break;
-                                    }
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FotoModelID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DataWykonania)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FotoTytul)
+                        </td>
+                        <td>
+                            @{
+                                string imageData;
+                                string extention = item.FotoRozszerzenie;
+                                switch (extention)
+                                {
+                                    case ".png":
+                                        {
+                                            imageData = @"data:image / png; base64," + Convert.ToBase64String(item.FotoData);
+                                            break;
+                                        }
+                                    case ".jpg":
+                                        {
+                                            imageData = @"data:image / jpg; base64," + Convert.ToBase64String(item.FotoData);
+                                            break;
+                                        }
+                                    default:
+                                        {
+                                            imageData = @"data:image / jpeg; base64," + Convert.ToBase64String(item.FotoData);
+                                            break;
+                                        }
+                                }
                             }
-                        }
-                        <img src=@imageData asp-append-version="true" width="250px" />
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FotoRozszerzenie)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Opis)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AutorModelID)
-                    </td>
-                    <td>
-                        @itemViewBag.Text
-                    </td>
-                    <td>
-                        <a asp-action="Details" asp-route-id="@item.FotoModelID" class="btn btn-info">Pokaż szczegóły</a>
-                    </td>
-                </tr>
+                            <img src=@imageData asp-append-version="true" width="250px" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FotoRozszerzenie)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Opis)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AutorModelID)
+                        </td>
+                        <td>
+                            @itemViewBag.Text
+                        </td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.FotoModelID" class="btn btn-outline-info">Pokaż szczegóły</a>
+                        </td>
+                    </tr>
                 }
-             }
-         }
+            }
+        }
     </tbody>
 </table>

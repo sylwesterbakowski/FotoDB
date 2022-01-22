@@ -19,7 +19,10 @@ namespace FotoDB.Controllers
         {
             _autorManager = autorManager;
         }
-        public IActionResult Index()
+        //public IActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public IActionResult Index(
+                                    string sortOrder,
+                                    string searchString)
         {
             //var manager = new AutorManager();
 
@@ -48,11 +51,91 @@ namespace FotoDB.Controllers
             //manager.ChangeKraj(3, 3);
 
             //var autors = manager.GetAutors();
-            var autors = _autorManager.GetAutors();
+            //var autors = _autorManager.GetAutors();
+            //IEnumerable<SelectListItem> listKrajs = _autorManager.GetListKrajs();
+            //ViewBag.ListKrajs = listKrajs;
+
+            //return View(autors);
+
+            //ViewBag.CurrentSort = sortOrder;
+            //ViewBag.NazwiskoSortParm = String.IsNullOrEmpty(sortOrder) ? "nazwisko_desc" : "";
+            //ViewBag.ImieSortParm = sortOrder == "imie" ? "imie_desc" : "imie";
+            //ViewBag.IDSortParm = sortOrder == "id" ? "id_desc" : "id";
+            //ViewBag.IDKrajSortParm = sortOrder == "idkraj" ? "idkraj_desc" : "idkraj";
+
+            //if (searchString != null)
+            //{
+            //    page = 1;
+            //}
+            //else
+            //{
+            //    searchString = currentFilter;
+            //}
+
+            //ViewBag.CurrentFilter = searchString;
+
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NazwiskoSortParm"] = String.IsNullOrEmpty(sortOrder) ? "nazwisko_desc" : "";
+            ViewData["ImieSortParm"] = sortOrder == "imie" ? "imie_desc" : "imie";
+            ViewData["IDSortParm"] = sortOrder == "id" ? "id_desc" : "id";
+            ViewData["IDKrajSortParm"] = sortOrder == "idkraj" ? "idkraj_desc" : "idkraj";
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var autors = from a in _autorManager.GetAutors()
+                        select a;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                autors = autors.Where(a => a.Nazwisko.ToLower().Contains(searchString.ToLower())
+                                        || a.Imie.ToLower().Contains(searchString.ToLower()));
+            }
+
             IEnumerable<SelectListItem> listKrajs = _autorManager.GetListKrajs();
             ViewBag.ListKrajs = listKrajs;
+            //ViewBag.KrajSortParm = String.IsNullOrEmpty(sortOrder) ? "kraj_desc" : "kraj";
+            //ViewBag.KrajSortParm = sortOrder == "kraj" ? "kraj_desc" : "kraj";
 
+            switch (sortOrder)
+            {
+                case "nazwisko_desc":
+                    autors = autors.OrderByDescending(a => a.Nazwisko);
+                    break;
+                case "imie":
+                    autors = autors.OrderBy(a => a.Imie);
+                    break;
+                case "imie_desc":
+                    autors = autors.OrderByDescending(a => a.Imie);
+                    break;
+                case "id":
+                    autors = autors.OrderBy(a => a.AutorModelID);
+                    break;
+                case "id_desc":
+                    autors = autors.OrderByDescending(a => a.AutorModelID);
+                    break;
+                case "idkraj":
+                    autors = autors.OrderBy(a => a.KrajModelID);
+                    break;
+                case "idkraj_desc":
+                    autors = autors.OrderByDescending(a => a.KrajModelID);
+                    break;
+                //case "kraj":
+                //    ViewBag.ListKrajs = listKrajs.OrderBy(a => a.Text);
+                //    break;
+                //case "kraj_desc":
+                //    ViewBag.ListKrajs = listKrajs.OrderByDescending(a => a.Text);
+                //    break;
+                default:
+                    autors = autors.OrderBy(a => a.Nazwisko);
+                    break;
+            }
+
+
+            //int pageSize = 4;
+            //int pageNumber = (page ?? 1);
+            //return View(autors.ToPagedList(pageNumber, pageSize));
             return View(autors);
+
         }
 
         [HttpGet]

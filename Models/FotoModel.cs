@@ -14,13 +14,13 @@ namespace FotoDB.Models
         public int FotoModelID { get; set; }
 
         public DateTime DataWykonania { get; set; }
-
+        [Required(ErrorMessage = "Nazwa pliku jest wymagana")]
         public string FotoTytul { get; set; }
 
         [DisplayName("Image")]
         public byte[] FotoData { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Rozszerzenie pliku jest wymagane")]
         public string FotoRozszerzenie { get; set; }
 
         public string Opis { get; set; }

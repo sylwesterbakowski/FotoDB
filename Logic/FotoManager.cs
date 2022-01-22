@@ -188,7 +188,7 @@ namespace FotoDB.Logic
             //    //context.SaveChanges();
             //}
             var foto = _fotoDBContext.Fotos.SingleOrDefault(f => f.FotoModelID == id);
-            if (newData == null)
+            if (newData > DateTime.Now)
             {
                 foto.DataWykonania = DateTime.Now;
             }

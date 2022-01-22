@@ -11,10 +11,10 @@ namespace FotoDB.Models
     {
         public int AutorModelID { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Nazwisko autora jest wymagane")]
         public string Nazwisko { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Imię autora jest wymagane")]
         public string Imie { get; set; }
 
 

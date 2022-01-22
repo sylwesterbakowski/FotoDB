@@ -10,7 +10,7 @@ namespace FotoDB.Models
     {
         public int KrajModelID { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Nazwa kraju jest wymagana")]
         public string Nazwa { get; set; }
         
         public ICollection<AutorModel> Autors { get; set; }

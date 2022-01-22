@@ -14,17 +14,17 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="DataWykonania" class="control-label"></label>
-                <input asp-for="DataWykonania" class="form-control" />
+                <input asp-for="DataWykonania" class="form-control" placeholder="Podaj datę wykonania"/>
                 <span asp-validation-for="DataWykonania" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FotoTytul" class="control-label"></label>
-                <input asp-for="FotoTytul" class="form-control" />
+                <input asp-for="FotoTytul" class="form-control" placeholder="Podaj tytuł"/>
                 <span asp-validation-for="FotoTytul" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ImageFile" class="control-label"></label>
-                <input asp-for="ImageFile"  type="file" class="form-control-file" accept="image/*"/>
+                <input asp-for="ImageFile"  type="file" class="form-control-file" accept="image/*" placeholder="Wybierz plik"/>
                 <span asp-validation-for="ImageFile" class="text-danger"></span>
                 @{ 
                     //Model.FotoData = System.IO.File.ReadAllBytes(Model.ImageFile.FileName);
@@ -32,12 +32,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="FotoRozszerzenie" class="control-label"></label>
-                <input asp-for="FotoRozszerzenie" class="form-control" />
+                <input asp-for="FotoRozszerzenie" class="form-control" placeholder="Podaj rozszerzenie"/>
                 <span asp-validation-for="FotoRozszerzenie" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Opis" class="control-label"></label>
-                <input asp-for="Opis" class="form-control" />
+                <input asp-for="Opis" class="form-control" placeholder="Podaj opis zdjęcia"/>
                 <span asp-validation-for="Opis" class="text-danger"></span>
             </div>
             <div class="form-group">

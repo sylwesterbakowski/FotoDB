@@ -10,15 +10,15 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="AutorModelID" />
+            <input type="hidden" asp-for="AutorModelID"/>
             <div class="form-group">
                 <label asp-for="Nazwisko" class="control-label"></label>
-                <input asp-for="Nazwisko" class="form-control" />
+                <input asp-for="Nazwisko" class="form-control" placeholder="Podaj nazwisko"/>
                 <span asp-validation-for="Nazwisko" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Imie" class="control-label"></label>
-                <input asp-for="Imie" class="form-control" />
+                <input asp-for="Imie" class="form-control" placeholder="Podaj imię"/>
                 <span asp-validation-for="Imie" class="text-danger"></span>
             </div>
             <div class="form-group">

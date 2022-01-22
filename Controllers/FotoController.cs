@@ -30,7 +30,10 @@ namespace FotoDB.Controllers
             _fotoManager = fotoManager;
             this._hostEnvironment = hostEnvironment;
         }
-        public IActionResult Index()
+        //public IActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        public IActionResult Index(
+                                    string sortOrder,
+                                    string searchString)
         {
             //var manager = new FotoManager();
 
@@ -86,11 +89,92 @@ namespace FotoDB.Controllers
             //manager.ChangeAutor(7, 3);
 
             //var fotos = manager.GetFotos();
-            var fotos = _fotoManager.GetFotos();
+
+
+            //var fotos = _fotoManager.GetFotos();
+
+            //IEnumerable<SelectListItem> listAutors = _fotoManager.GetListAutors();
+            //ViewBag.ListAutors = listAutors;
+
+            //return View(fotos);
+
+            //ViewBag.CurrentSort = sortOrder;
+
+            //ViewBag.TytulSortParm = String.IsNullOrEmpty(sortOrder) ? "tytul_desc" : "";
+            //ViewBag.RozszerzenieSortParm = sortOrder == "rozszerzenie" ? "rozszerzenie_desc" : "rozszerzenie";
+            //ViewBag.IDSortParm = sortOrder == "id" ? "id_desc" : "id";
+            //ViewBag.IDAutorSortParm = sortOrder == "idautor" ? "idautor_desc" : "idautor";
+            //ViewBag.DataSortParm = sortOrder == "data" ? "data_desc" : "data";
+
+            //if (searchString != null)
+            //{
+            //    page = 1;
+            //}
+            //else
+            //{
+            //    searchString = currentFilter;
+            //}
+
+            //ViewBag.CurrentFilter = searchString;
+
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["TytulSortParm"] = String.IsNullOrEmpty(sortOrder) ? "tytul_desc" : "";
+            ViewData["RozszerzenieSortParm"] = sortOrder == "rozszerzenie" ? "rozszerzenie_desc" : "rozszerzenie";
+            ViewData["IDSortParm"] = sortOrder == "id" ? "id_desc" : "id";
+            ViewData["IDAutorSortParm"] = sortOrder == "idautor" ? "idautor_desc" : "idautor";
+            ViewData["DataSortParm"] = sortOrder == "data" ? "data_desc" : "data";
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var fotos = from f in _fotoManager.GetFotos()
+                         select f;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                fotos = fotos.Where(f => f.FotoTytul.ToLower().Contains(searchString.ToLower()));
+            }
 
             IEnumerable<SelectListItem> listAutors = _fotoManager.GetListAutors();
             ViewBag.ListAutors = listAutors;
 
+            switch (sortOrder)
+            {
+                case "tytul_desc":
+                    fotos = fotos.OrderByDescending(f => f.FotoTytul);
+                    break;
+                case "rozszerzenie":
+                    fotos = fotos.OrderBy(f => f.FotoRozszerzenie);
+                    break;
+                case "rozszerzenie_desc":
+                    fotos = fotos.OrderByDescending(f => f.FotoRozszerzenie);
+                    break;
+                case "data":
+                    fotos = fotos.OrderBy(f => f.DataWykonania);
+                    break;
+                case "data_desc":
+                    fotos = fotos.OrderByDescending(f => f.DataWykonania);
+                    break;
+                case "id":
+                    fotos = fotos.OrderBy(f => f.FotoModelID);
+                    break;
+                case "id_desc":
+                    fotos = fotos.OrderByDescending(f => f.FotoModelID);
+                    break;
+                case "idautor":
+                    fotos = fotos.OrderBy(f => f.AutorModelID);
+                    break;
+                case "idautor_desc":
+                    fotos = fotos.OrderByDescending(f => f.AutorModelID);
+                    break;
+                default:
+                    fotos = fotos.OrderBy(f => f.FotoTytul);
+                    break;
+            }
+
+
+            //int pageSize = 3;
+            //int pageNumber = (page ?? 1);
+            //return View(fotos.ToPagedList(pageNumber, pageSize));
             return View(fotos);
         }
 

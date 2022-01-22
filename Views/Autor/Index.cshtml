@@ -9,23 +9,50 @@
 <p>
     <a asp-action="Create" class="btn btn-primary">Dodaj nowego</a>
 </p>
-<table class="table">
+@*@using (Html.BeginForm())
+    {
+        <div>
+            Wyszukaj po nazwisku i imieniu: @Html.TextBox("SearchString")
+            <input type="submit" value="Wyszukaj" />
+        </div>
+    }*@
+<hr />
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <div class="form-group">
+            <input type="text" class="form-control" name="SearchString" placeholder="Podaj nazwisko i imie" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Wyszukaj" class="btn btn-primary" />
+            <a asp-action="Index" class="btn btn-info">Powrót do listy autorów</a>
+        </div>
+    </div>
+</form>
+<hr />
+<table class="table table-dark table-hover table-bordered">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.AutorModelID)
+
+                @*@Html.ActionLink(@Html.DisplayNameFor(model => model.AutorModelID), "Index", new { sortOrder = ViewBag.IDSortParm })*@
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["IDSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.AutorModelID)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Nazwisko)
+
+                @*@Html.ActionLink(@Html.DisplayNameFor(model => model.Nazwisko), "Index", new { sortOrder = ViewBag.NazwiskoSortParm })*@
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NazwiskoSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.Nazwisko)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Imie)
+
+                @*@Html.ActionLink(@Html.DisplayNameFor(model => model.Imie), "Index", new { sortOrder = ViewBag.ImieSortParm })*@
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["ImieSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.Imie)</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.KrajModelID)
+
+                @*@Html.ActionLink(@Html.DisplayNameFor(model => model.KrajModelID), "Index", new { sortOrder = ViewBag.IDKrajSortParm })*@
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["IDKrajSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">@Html.DisplayNameFor(model => model.KrajModelID)</a>
             </th>
             <th>
                 Kraj
+                @*@Html.ActionLink("Kraj", "Index", new { sortOrder = ViewBag.KrajSortParm })*@
             </th>
             <th></th>
         </tr>
@@ -56,13 +83,13 @@
                             @itemViewBag.Text
                         </td>
                         <td>
-                            <a asp-action="Details" asp-route-id="@item.AutorModelID" class="btn btn-info">Pokaż szczegóły</a>
+                            <a asp-action="Details" asp-route-id="@item.AutorModelID" class="btn btn-outline-info">Pokaż szczegóły</a>
                         </td>
                     </tr>
                 }
 
-             }
-                    
-         }
-     </tbody>
+            }
+
+        }
+    </tbody>
 </table>

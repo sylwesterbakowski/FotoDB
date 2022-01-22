@@ -61,7 +61,7 @@ namespace FotoDB
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Kraj}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

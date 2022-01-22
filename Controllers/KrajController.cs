@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace FotoDB.Controllers
 {
@@ -18,7 +19,17 @@ namespace FotoDB.Controllers
         {
             _krajManager = krajManager;
         }
-        public IActionResult Index()
+        //public IActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+        //public async Task<IActionResult> Index(string sortOrder, string searchString)
+        //public IActionResult Index(string sortOrder, string searchString)
+        //public IActionResult Index(
+        //                            string sortOrder,
+        //                            string currentFilter,
+        //                            string searchString,
+        //                            int? pageNumber)
+        public IActionResult Index(
+                                    string sortOrder,
+                                    string searchString)
         {
             //var manager = new KrajManager();
 
@@ -41,10 +52,76 @@ namespace FotoDB.Controllers
             //manager.ChangeNazwa(3, "Szkocja");
 
             //var krajs = manager.GetKrajs();
-            var krajs = _krajManager.GetKrajs();
 
+            //var krajs = _krajManager.GetKrajs();
+            //return View(krajs);
+
+            //ViewBag.CurrentSort = sortOrder;
+            //ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            //ViewBag.IDSortParm = sortOrder == "ID" ? "id_desc" : "ID";
+
+            //if (searchString != null)
+            //{
+            //    page = 1;
+            //}
+            //else
+            //{
+            //    searchString = currentFilter;
+            //}
+
+            //ViewBag.CurrentFilter = searchString;
+
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NazwaSortParm"] = String.IsNullOrEmpty(sortOrder) ? "nazwa_desc" : "";
+            ViewData["IDSortParm"] = sortOrder == "id" ? "id_desc" : "id";
+
+            //if (searchString != null)
+            //{
+            //    pageNumber = 1;
+            //}
+            //else
+            //{
+            //    searchString = currentFilter;
+            //}
+
+            ViewData["CurrentFilter"] = searchString;
+
+
+            var krajs = from k in _krajManager.GetKrajs()
+                        select k;
+
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                krajs = krajs.Where(k => k.Nazwa.ToLower().Contains(searchString.ToLower()));
+            }
+
+            switch (sortOrder)
+            {
+                case "nazwa_desc":
+                    krajs = krajs.OrderByDescending(k => k.Nazwa);
+                    break;
+                case "id":
+                    krajs = krajs.OrderBy(k => k.KrajModelID);
+                    break;
+                case "id_desc":
+                    krajs = krajs.OrderByDescending(k => k.KrajModelID);
+                    break;
+                default:
+                    krajs = krajs.OrderBy(k => k.Nazwa);
+                    break;
+            }
+            //int pageSize = 5;
+            //int pageNumber = (page ?? 1);
+            //return View(krajs.ToPagedList(pageNumber, pageSize));
+            //return View(await krajs.AsNoTracking().ToListAsync());
+            //return View(krajs);
+            //int pageSize = 3;
+            //return View(PaginatedList<KrajModel>.CreateAsync(krajs.AsQueryable(), pageNumber ?? 1, pageSize));
             return View(krajs);
         }
+
+        
 
         [HttpGet]
         public IActionResult Create()
@@ -114,6 +191,7 @@ namespace FotoDB.Controllers
             var kraj = _krajManager.GetKraj(id);
             return View(kraj);
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
